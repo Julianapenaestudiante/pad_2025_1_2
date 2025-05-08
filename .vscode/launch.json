@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Ejecutar dataweb.py",
+        "type": "python",
+        "request": "launch",
+        "program": "${workspaceFolder}/src/edu_pad/dataweb.py",
+        "console": "integratedTerminal"
+      }
+    ]
+  }
+  
