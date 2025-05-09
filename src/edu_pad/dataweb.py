@@ -15,7 +15,7 @@ class DataWeb:
             respuesta = requests.get(self.url, headers=headers)
             if respuesta.status_code != 200:
                 print("La url sacó error, no respondió o no existe")
-                return
+                return pd.DataFrame()
 
             soup = BeautifulSoup(respuesta.text, 'html.parser')
             tabla = soup.select_one('div[data-testid="history-table"] table')
@@ -40,9 +40,11 @@ class DataWeb:
 
             df = self.convertir_numericos(df)
             df.to_excel("dataweb_limpio.xlsx")
+            return df
 
         except Exception as err:
             print("Error en la función obtener_datos:", err)
+            return pd.DataFrame()
 
     def convertir_numericos(self, df=pd.DataFrame()):
         df = df.copy()
@@ -50,15 +52,14 @@ class DataWeb:
             for col in ('abrir', 'max', 'min', 'cerrar', 'cierre_ajustado', 'volumen'):
                 df[col] = (
                     df[col]
+                    .astype(str)  # Asegura que todos los valores sean cadenas
                     .str.replace(r"\.", "", regex=True)
                     .str.replace(",", ".", regex=True)
                     .astype(float)
                 )
         return df
 
-# Ejecutar
-dw = DataWeb()
-dw.obtener_datos()
+
 
 
 
