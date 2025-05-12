@@ -1,11 +1,13 @@
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
-import datetime
+import os
 
 class DataWeb:
     def __init__(self):
         self.url = "https://es.finance.yahoo.com/quote/CL=F/history/"
+        self.output_dir = "static/csv"
+        os.makedirs(self.output_dir, exist_ok=True)
 
     def obtener_datos(self):
         try:
@@ -14,11 +16,15 @@ class DataWeb:
             }
             respuesta = requests.get(self.url, headers=headers)
             if respuesta.status_code != 200:
-                print("La url sacó error, no respondió o no existe")
+                print("La URL no respondió correctamente.")
                 return pd.DataFrame()
 
             soup = BeautifulSoup(respuesta.text, 'html.parser')
             tabla = soup.select_one('div[data-testid="history-table"] table')
+
+            if tabla is None:
+                print("No se encontró la tabla de datos.")
+                return pd.DataFrame()
 
             nombre_columnas = [th.get_text(strip=True) for th in tabla.thead.find_all('th')]
             filas = []
@@ -39,7 +45,6 @@ class DataWeb:
             })
 
             df = self.convertir_numericos(df)
-            df.to_excel("dataweb_limpio.xlsx")
             return df
 
         except Exception as err:
@@ -52,15 +57,9 @@ class DataWeb:
             for col in ('abrir', 'max', 'min', 'cerrar', 'cierre_ajustado', 'volumen'):
                 df[col] = (
                     df[col]
-                    .astype(str)  # Asegura que todos los valores sean cadenas
+                    .astype(str)
                     .str.replace(r"\.", "", regex=True)
                     .str.replace(",", ".", regex=True)
                     .astype(float)
                 )
         return df
-
-
-
-
-
-
