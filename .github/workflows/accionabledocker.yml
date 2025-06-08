@@ -13,27 +13,33 @@ jobs:
       contents: write
 
     steps:
+      # Paso 1: Clonar el repositorio
       - name: Paso 1 - Checkout del repositorio
         uses: actions/checkout@v4
 
+      # Paso 2: Login a Docker Hub con usuario julimaria44
       - name: Paso 2 - Login a Docker Hub
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN}}
+          username: ${{ secrets.DOCKER_HUB_USERNAME}}  # debe contener 'julimaria44'
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN  }}
 
+      # Paso 3: Construir la imagen Docker con el nombre correcto
       - name: Paso 3 - Construir imagen Docker
-        run: docker build -t julianapena/pad-2025-app:latest .
+        run: docker build -t julimaria44/pad_2025_1_2:latest .
 
+      # Paso 4: Subir imagen a Docker Hub
       - name: Paso 4 - Subir imagen a Docker Hub
-        run: docker push julianapenaestudiante/pad_2025_1_2
+        run: docker push julimaria44/pad_2025_1_2:latest
 
+      # Paso 5: Ejecutar contenedor para generar CSV
       - name: Paso 5 - Ejecutar contenedor para generar CSV
         run: |
           docker run --rm \
             -v "${{ github.workspace }}/static/csv":/app/static/csv \
-            j julianapenaestudiante/pad_2025_1_2
+            julimaria44/pad_2025_1_2:latest
 
+      # Paso 6: Commit automático del archivo CSV
       - name: Paso 6 - Commit del CSV generado
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
@@ -41,3 +47,5 @@ jobs:
           commit_user_name: Juliana Pena [GitHub Actions]
           commit_user_email: juliana.pena@est.iudigital.edu.co
           commit_author: Juliana Pena <juliana.pena@est.iudigital.edu.co>
+
+ 
