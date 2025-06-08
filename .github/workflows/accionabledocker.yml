@@ -26,13 +26,13 @@ jobs:
         run: docker build -t julianapena/pad-2025-app:latest .
 
       - name: Paso 4 - Subir imagen a Docker Hub
-        run: docker push julianapena/pad-2025-app:latest
+        run: docker push julianapenaestudiante/pad_2025_1_2
 
       - name: Paso 5 - Ejecutar contenedor para generar CSV
         run: |
           docker run --rm \
             -v "${{ github.workspace }}/static/csv":/app/static/csv \
-            julianapena/pad-2025-app:latest
+            j julianapenaestudiante/pad_2025_1_2
 
       - name: Paso 6 - Commit del CSV generado
         uses: stefanzweifel/git-auto-commit-action@v5
