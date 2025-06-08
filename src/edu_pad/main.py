@@ -1,11 +1,13 @@
 import os
-from dataweb import DataWeb
+from edu_pad.dataweb import DataWeb
+
 
 def main():
+    print("¡Hola desde edu_pad.main!")  # Mensaje de prueba
     dataweb = DataWeb()
     df = dataweb.obtener_datos()
 
-    print("\n--- Datos extraidos de Yahoo Finance ---")
+    print("\n--- Datos extraídos de Yahoo Finance ---")
     if df.empty:
         print("No se obtuvieron datos.")
         return
@@ -13,7 +15,7 @@ def main():
         print(df.head(10))  # Mostrar solo las primeras 10 filas
 
         # Estadísticas básicas
-        print(f"\nTotal de filas extraidas: {len(df)}")
+        print(f"\nTotal de filas extraídas: {len(df)}")
         print(f"Rango de fechas: {df['fecha'].min()} hasta {df['fecha'].max()}")
 
         # Guardar el archivo CSV
@@ -26,6 +28,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
 
 
 
