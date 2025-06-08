@@ -56,6 +56,37 @@ pad_2025_1_2/
    python src/edu_pad/main.py
    ```
 
+   
+## 🐳 ¿Cómo Ejecutar el Proyecto con Docker?
+
+Esta es la forma más rápida y recomendada para ejecutar el proyecto sin necesidad de instalar dependencias manualmente.
+
+### 1. Descargar la imagen
+
+```bash
+docker pull julimaria44/pad_2025_1_2:latest
+```
+
+Esto descargará la versión más reciente del proyecto desde Docker Hub.
+
+### 2. Ejecutar el contenedor
+
+```bash
+docker run julimaria44/pad_2025_1_2:latest
+```
+
+Esto iniciará el contenedor y ejecutará automáticamente el módulo `main.py`, generando el archivo `data_web.csv` dentro del contenedor.
+
+### 3. (Opcional) Guardar el archivo CSV localmente
+
+```bash
+docker run --rm -v "$(pwd)/csv_output:/app/static/csv" julimaria44/pad_2025_1_2:latest
+```
+
+Este comando vincula la carpeta local `csv_output` con el directorio donde el contenedor guarda el archivo CSV, para que puedas acceder a él desde tu máquina.
+
+---
+
 ## 📄 Descripción de Archivos Principales
 
 - `dataweb.py`: Contiene la lógica de scraping con `requests` y `BeautifulSoup`.
@@ -65,7 +96,7 @@ pad_2025_1_2/
 
 ## 🧠 Autor
 
-- JUliana Maria Peña Suarez
+- Juliana Maria Peña Suarez
 
 ## 📜 Licencia
 
